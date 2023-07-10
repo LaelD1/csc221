@@ -1,0 +1,17 @@
+from gasp import *
+def draw_face(x, y):
+    begin_graphics()
+
+    Circle((x, y), 200)
+    Circle((x-100, y+50), 25)
+    Circle((x+100, y+50), 25)
+    Line((x-30, y-30), (x, y+30))
+    Line((x-30, y-30), (x+25, y-30))
+    Arc((x, y), 150, 225, 315)
+    Arc((x-180, y+30), 35, 105, 235)
+    Arc((x+178, y+30), 35, -50, 70)
+
+
+
+
+    
