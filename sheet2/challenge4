@@ -1,0 +1,3 @@
+def multiply(x, y):
+    print(x, 'x' , y, '=', x * y)
+multiply(7, 5)
