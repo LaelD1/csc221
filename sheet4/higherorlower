@@ -1,14 +1,35 @@
 from random import randint
+def read_yesorno(question):
+    while True:
+        response = input(question)
+        if response == 'yes':
+            return True
+        if response == 'no':
+            return False
+        else:
+            print("Invalid answer. Please type yes or no.")
 
-question = "Pick a number between 1-1000?"
-x = int
-guesses = 0
+
+while True:
+    x= randint(1, 1000)
+
+    if randint(1, 1000):
+        print("A number has been selected." )
 
 
-while x != 1234:
+    question = "Pick a number between 1-1000?"
     print(question)
-    x = int(input("Enter a number: "))
-    guesses = guesses + 1
-    print("You've made", guesses, "guesses.")
-    if x == 1234:
+    while True:
+        number = int(input("Enter a number: "))
+        distance = number - x
+
+        if number == x:
+            print("Great job! You guessed the right number.")
+            break
+        else:
+            print("You were off by", distance, ". The right number was", x ,".")
+            break
+    
+    answer = read_yesorno("Would you like to play again? (yes or no)")
+    if not answer:
         break
