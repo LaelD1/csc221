@@ -1,15 +1,14 @@
 from random import randint
 
 question = "Pick a number between 1-1000?"
-print(question)
-x = int(input("Enter a number: "))
+x = int
+guesses = 0
 
 
-for y in range (10):
+while x != 1234:
     print(question)
     x = int(input("Enter a number: "))
-    while x != 1234:
+    guesses = guesses + 1
+    print("You've made", guesses, "guesses.")
+    if x == 1234:
         break
-#while loop ends but for loop keeps going
-
-
