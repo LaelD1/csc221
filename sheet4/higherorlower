@@ -2,4 +2,16 @@ from random import randint
 x= randint(1, 1000)
 
 if randint(1, 1000):
-    print("It is done. The number is",x,".")
+    print("It is done." )
+
+
+question = "Pick a number between 1-1000?"
+print(question)
+number = int(input("Enter a number: "))
+distance = number - x
+
+if number == randint(1, 1000):
+    print("Great job! You guessed the right number")
+else:
+    print("You were off by", distance, ". The right number was", x ,".")
+
