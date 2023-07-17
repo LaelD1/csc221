@@ -1,21 +1,24 @@
 from gasp import *          # So that you can draw things
 from random import randint
+def place_robot():
+    robot_x = randint(0, 63)
+    robot_y = randint(0, 47)
+    Box(10, 10, 10, filled=False, color=color.Black, thickness=1)
+
 def place_player():
     print("Here I am!")
-    player_x = randint(0, 0)
-    player_y = randint(0,0)
+    player_x = randint(0, 63)
+    player_y = randint(0, 47)
     Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
-
-from gasp import *
-begin_graphics()
-c = Circle((5, 5), 5)
-move_to(c, (640, 480))
-sleep(0.02)
 
 
 def move_player():
     print("I'm moving...")
     update_when('key_pressed')
+    
+    
+
+
 
 
 begin_graphics()            # Create a graphics window
