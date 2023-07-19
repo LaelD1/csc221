@@ -1,0 +1,90 @@
+"""
+Put your tests here:
+
+  >>>
+
+"""
+# Put your solutions here:
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+"""
+  >>> type(thing1)
+  <class 'list'>
+  >>> type(thing2)
+  <class 'tuple'>
+  >>> type(thing3)
+  <class 'str'>
+"""
+
+"""
+  >>> thing[3]
+  7
+  >>> len(thing)
+  5
+"""
+"""
+  >>> seq[2:5]
+  [13, 11, 9]
+"""
+
+"""
+  >>> whatsthis[2]
+  42
+  >>> type(whatsthis[4])
+  <class 'list'>
+  >>> whatsthis[6:8]
+  [11, 'what is this?']
+  >>> len(whatsthis)
+  10
+"""
+"""
+  >>> thing[2] = 17
+  >>> thing[2]
+  17
+"""
+
+"""
+  >>> tricky[4]
+  'this'
+  >>> tricky[8]
+  42
+  >>> type(tricky[7])
+  <class 'tuple'>
+  >>> type(tricky[0])
+  <class 'list'>
+  >>> len(tricky)
+  12
+"""
+
+"""
+  >>> a_list[3]
+  42
+  >>> a_list[6]
+  'Ni!'
+  >>> len(a_list)
+  8
+"""
+
+"""
+  >>> b_list[1:]
+  ['Stills', 'Nash']
+  >>> group = b_list + c_list
+  >>> group[-1]
+  'Young'
+"""
+"""
+  >>> 'war' in mystery_list
+  False
+  >>> 'peace' in mystery_list
+  True
+  >>> 'justice' in mystery_list
+  True
+  >>> 'oppression' in mystery_list
+  False
+  >>> 'equality' in mystery_list
+  True
+"""

@@ -1,18 +1,17 @@
 from gasp import *          # So that you can draw things
 from random import randint
-def place_robot():
-    robot_x = randint(0, 63)
-    robot_y = randint(0, 47)
-    robot_z = randint(0, 31)
-    Box((robot_x, robot_y), 10, 10, filled=True)
-
 
 def place_player():
     print("Here I am!")
     player_x = randint(0, 63)
     player_y = randint(0, 47)
-    Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
+    c = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
 
+def place_robot():
+    robot_x = randint(0, 63)
+    robot_y = randint(0, 47)
+    robot_z = randint(0, 31)
+    r = Box((robot_x, robot_y), 10, 10, filled=True)
 
 def move_player():
     print("I'm moving...")
@@ -22,19 +21,23 @@ def move_player():
     player_y = 5
      
     key = update_when('key_pressed')
-
-    while player_x < 63:
-        if key == '6':
+    remove_from_screen(c)
+    
+    if key == '6' and player_x < 63:
+        player_x += 1
+    elif key == '3':
+        if player_x < 63:
             player_x += 1
-        elif key == '3':
-            player_x += 1
+        if player_y > 0:
             player_y -= 1
-        sleep(0.02)
-
+    
+    
+            
+    c = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
 
     
 
-    move_to(player_shape, (10 * player_x + 5, 10 * player_y + 5))
+    move_to(c)
 
 
 begin_graphics()            # Create a graphics window
@@ -44,4 +47,5 @@ finished = False
 while not finished:
     update_when('key_pressed')
     move_player()
+    sleep(0.2)
 end_graphics() 
