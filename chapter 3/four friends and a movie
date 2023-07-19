@@ -1,0 +1,14 @@
+names = []
+tickets = 5
+
+
+print("Hmmm... You have", tickets, "tickets to that new movie everyone wants to see. Whom should you invite to go with you?")
+
+for x in range(tickets):
+    friends = +1
+    name = input("Enter the name of a friend:",)
+    names.append(name)
+    print("Your invite list now contains:",names)
+
+print("Great! Now you are ready to go to the movie...")
+    
