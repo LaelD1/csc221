@@ -11,4 +11,11 @@ for x in range(tickets):
     print("Your invite list now contains:",names)
 
 print("Great! Now you are ready to go to the movie...")
+
+this = ['I', 'am', 'not', 'a', 'crook']
+that = ['I', 'am', 'not', 'a', 'crook']
+print("Test 1:", this is that)
+that = this
+print("Test 2:", this is that)
+#despite having the same string values, test 1 is false because 'that' had not been set equal to 'this' therefore the program recognizes them as different objects. Test 2 is true because 'that' is set equal to 'this' so the computer knows they have the same value.
     
