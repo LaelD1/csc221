@@ -14,19 +14,24 @@ def place_player():
 
 def move_player():
     print("I'm moving...")
-    
-    global player_x, player_y, player_shape
 
+    global player_x, player_y, player_shape
+    player_x = 5
+    player_y = 5
+     
     key = update_when('key_pressed')
 
-    if key == '6' and player_x < 63:
-        player_x += 1
-    elif key == '3':
-        if player_x < 63:
+    while player_x < 63:
+        if key == '6':
             player_x += 1
-        if player_y > 0:
+        elif key == '3':
+            player_x += 1
             player_y -= 1
+        sleep(0.02)
+
+
     
+
     move_to(player_shape, (10 * player_x + 5, 10 * player_y + 5))
 
 
