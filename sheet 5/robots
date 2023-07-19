@@ -3,7 +3,9 @@ from random import randint
 def place_robot():
     robot_x = randint(0, 63)
     robot_y = randint(0, 47)
-    Box(10, 10, 10, filled=False, color=color.Black, thickness=1)
+    robot_z = randint(0, 31)
+    Box((robot_x, robot_y), 10, 10, filled=True)
+
 
 def place_player():
     print("Here I am!")
@@ -36,6 +38,7 @@ def move_player():
 
 
 begin_graphics()            # Create a graphics window
+place_robot()
 place_player()
 finished = False
 while not finished:
