@@ -1,25 +1,14 @@
 from gasp import *
 import time
 from random import randint
-def lose():
-    time.sleep(1)
-    clear_screen()
-    Text("Game over",(320, 270), color = color.RED, size=40)
-    key_text = Text("Press any button to stop playing", (320, 100), color = color.RED, size=12)
-    en = update_when('key_pressed')
-    clear_screen()
-    if en == "Escape":
-        return True
-    return False
-    
 def place_robot():
-    global robot
-    global game
-    global player_x
-    global player_y 
+    global robot    
     global robot_x
     global robot_y
-    robot = Circle((10 * robot_x + 5, 10 * robot_y + 5), 5, filled=True, color="Red")
+    
+    
+    remove_from_screen(robot)
+    
     if player_x > robot_x:
         robot_x += 1
     elif player_x < robot_x:
@@ -28,48 +17,53 @@ def place_robot():
         robot_y += 1
     elif player_y < robot_y:
         robot_y -= 1
+
+    robot = Circle((10 * robot_x + 5, 10 * robot_y + 5), 5, filled=True, color="Red")
+
 def place_player():
     global player_x
     global player_y 
-    global robot_x
-    global robot_y
-    global robot
+    global player
     
-    player = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
     key = update_when('key_pressed')
-    remove_from_screen(robot)
-    Text(key,(320, 100), size=12)
-    if key == 'KP_6':
+    remove_from_screen(player)
+    
+    if key == 'd':
         player_x += 1
-    elif key == 'KP_4':
+    elif key == 'a':
         player_x -= 1
-    elif key == 'KP_8':
+    elif key == 'w':
         player_y += 1
-    elif key == 'KP_2':
+    elif key == 's':
         player_y -= 1
-    elif key == 'KP_9':
+    elif key == '6':
         player_x += 1 
-        player_y += 1
-    elif key == 'KP_7':
+        player_y += 1        
+    elif key == '3': 
         player_x -= 1 
-        player_y += 1 
-    elif key == 'KP_1':
-        player_x -= 1
         player_y -= 1 
-    elif key == 'KP_3': 
+    elif key == '6':
         player_x += 1 
-        player_y -= 1 
-    if player_x == 63:
-        player_x = 1
-    if player_y == 47:
-        player_y = 1
-    if player_x == 0:
+        player_y += 1  
+    elif key == '4':
+        player_x -= 1 
+        player_y += 1  
+    elif key == '5':
+        player_x += 1 
+        player_y -= 1  
+
+    if player_x == 64:
+        player_x = 0
+    elif player_x == -1:
         player_x = 63
-    if player_y == 0:
+    if player_y == 48:
+        player_y = 0
+    elif player_y == -1:
         player_y = 47
 
-    remove_from_screen(player)
-    return
+    player = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
+    
+
 def draw_grid():
     line_x = 0
     line_y = 0
@@ -80,41 +74,46 @@ def draw_grid():
 
 def start_screen():
     key_text = Text("Welcome to Robots", (320, 270), color = 'blue', size=48)
-    key_text = Text("Press any button to start", (320, 100), color = 'blue', size=12)
+    key_text = Text("Press any key to start", (320, 100), color = 'blue', size=12)
     update_when('key_pressed')
     clear_screen()
+
+def lose():
+    time.sleep(1)
+    clear_screen()
+    Text("Game over",(320, 270), color = color.RED, size=40)
+    key_text = Text("Press any key to end the game", (320, 100), color = color.RED, size=12)
+    en = update_when('key_pressed')
+    clear_screen()
+    en = end_graphics
+    if en == "Escape":
+        return True
+    
 
 def play_game():
     start_screen()
     draw_grid()
-    global game
     global player_x
-    global player_y 
+    global player_y
+    global player 
     global robot_x
     global robot_y
     global robot
-    robot = Circle((1, 1), 1, filled=True)
-    game = True
-    player_x = randint(2,63)
-    player_y = randint(2,47)
-    robot_x = randint(2, 62)
-    robot_y = randint(2, 47)
-    while robot_x > player_x-10 and robot_x < player_x+10:
-        robot_x = randint(2, 47)
-    while robot_x > player_x-10 and robot_x < player_x+10:
-        robot_y = randint(2, 63)
-    while game:
-        if player_x == robot_x and player_y == robot_y:
-            game = False
+    player_x = randint(0,63)
+    player_y = randint(0,47)
+    robot_x = randint(0, 63)
+    robot_y = randint(0, 47)
+    player = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
+    robot = Circle((10 * robot_x + 5, 10 * robot_y + 5), 5, filled=True, color="Red")
+
+    while True:
         place_player()
         place_robot()
-
-    lost = lose()
-    if not lost:
-        play_game()
-
+        if player_x == robot_x and player_y == robot_y:
+            break
+        sleep(0.1)
+    lose()
 
 begin_graphics(title = "Robots")
-
 play_game()
 end_graphics()
