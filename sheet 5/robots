@@ -1,17 +1,63 @@
 from gasp import *          # So that you can draw things
 from random import randint
 
+def place_robot():
+    global player_x 
+    global player_y
+    global robot_x
+    global robot_y
+
+    player_x = randint(0, 63)
+    player_y = randint(0, 47)
+    robot_x = randint(0, 63)
+    robot_y = randint(0, 47)
+    robot_z = randint(0, 31)
+    r = Box((robot_x, robot_y), 10, 10, filled=True)
+    if player_x > robot_x:
+        robot_x += 1
+    elif player_x < robot_x:
+        robot_x -= 1
+    if player_y > robot_y:
+        robot_y += 1
+    elif player_y < robot_y:
+        robot_y -= 1
+
 def place_player():
     print("Here I am!")
     player_x = randint(0, 63)
     player_y = randint(0, 47)
     c = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
+    key = update_when('key_pressed')
+    if key == 'KP_6':
+        player_x += 1
+    elif key == 'KP_4':
+        player_x -= 1
+    elif key == 'KP_8':
+        player_y += 1
+    elif key == 'KP_2':
+        player_y -= 1
+    elif key == 'KP_9':
+        player_x += 1 
+        player_y += 1
+    elif key == 'KP_7':
+        player_x -= 1 
+        player_y += 1 
+    elif key == 'KP_1':
+        player_x -= 1
+        player_y -= 1 
+    elif key == 'KP_3': 
+        player_x += 1 
+        player_y -= 1 
+    if player_x == 63:
+        player_x = 1
+    if player_y == 47:
+        player_y = 1
+    if player_x == 0:
+        player_x = 63
+    if player_y == 0:
+        player_y = 47
 
-def place_robot():
-    robot_x = randint(0, 63)
-    robot_y = randint(0, 47)
-    robot_z = randint(0, 31)
-    r = Box((robot_x, robot_y), 10, 10, filled=True)
+
 
 def move_player():
     print("I'm moving...")
@@ -48,4 +94,4 @@ while not finished:
     update_when('key_pressed')
     move_player()
     sleep(0.2)
-end_graphics() 
+end_graphics()
