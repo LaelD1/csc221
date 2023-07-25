@@ -84,6 +84,7 @@ def lose():
     Text("Game over",(320, 270), color = color.RED, size=40)
     key_text = Text("Press any key to end the game", (320, 100), color = color.RED, size=12)
     en = update_when('key_pressed')
+    time.sleep(1)
     clear_screen()
     en = end_graphics
     if en == "Escape":
