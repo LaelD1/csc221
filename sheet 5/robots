@@ -1,120 +1,176 @@
 from gasp import *
-import time
 from random import randint
-def place_robot():
-    global robot    
-    global robot_x
-    global robot_y
-    
-    
-    remove_from_screen(robot)
-    
-    if player_x > robot_x:
-        robot_x += 1
-    elif player_x < robot_x:
-        robot_x -= 1
-    if player_y > robot_y:
-        robot_y += 1
-    elif player_y < robot_y:
-        robot_y -= 1
 
-    robot = Circle((10 * robot_x + 5, 10 * robot_y + 5), 5, filled=True, color="Red")
+class Player:
+    pass
+
+class Robot:
+    pass
 
 def place_player():
-    global player_x
-    global player_y 
+    global player
+    player = Player()
+      
+    player.x = randint(0,63)
+    player.y = randint(0,47)
+
+def safely_place_player():
+    global player
+
+    place_player()
+
+    while collided(player, robots):
+        place_player()
+
+    player.shape = Circle ((10* player.x + 5, 10* player.y + 5 ), 5, filled=True)
+
+def place_robots():
+    global robots    
+    robots = []
+
+    while len(robots) < numbots:
+        robot = Robot()
+        robot.x = randint(0, 63)
+        robot.y = randint(0, 47)
+        robot.junk = False
+        robot.shape = Box((10 * robot.x, 10 * robot.y), 10, 10)
+        robots.append(robot)
+
+def move_player():
     global player
     
-    key = update_when('key_pressed')
-    remove_from_screen(player)
+    remove_from_screen(player.shape)
+    safely_place_player()
+    key = update_when("key_pressed")
+    
     
     if key == 'd':
-        player_x += 1
+        player.x += 1
     elif key == 'a':
-        player_x -= 1
+        player.x -= 1
     elif key == 'w':
-        player_y += 1
+        player.y += 1
     elif key == 's':
-        player_y -= 1
+        player.y -= 1
     elif key == '6':
-        player_x += 1 
-        player_y += 1        
+        player.x += 1 
+        player.y += 1        
     elif key == '3': 
-        player_x -= 1 
-        player_y -= 1 
+        player.x -= 1 
+        player.y -= 1 
     elif key == '6':
-        player_x += 1 
-        player_y += 1  
+        player.x += 1 
+        player.y += 1  
     elif key == '4':
-        player_x -= 1 
-        player_y += 1  
+        player.x -= 1 
+        player.y += 1  
     elif key == '5':
-        player_x += 1 
-        player_y -= 1  
+        player.x += 1 
+        player.y -= 1  
 
-    if player_x == 64:
-        player_x = 0
-    elif player_x == -1:
-        player_x = 63
-    if player_y == 48:
-        player_y = 0
-    elif player_y == -1:
-        player_y = 47
+    if player.x == 64:
+        player.x = 0
+    elif player.x == -1:
+        player.x = 63
+    if player.y == 48:
+        player.y = 0
+    elif player.y == -1:
+        player.y = 47
 
-    player = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
-    
 
-def draw_grid():
-    line_x = 0
-    line_y = 0
-    for y in range(0,480,10):
-        Line((0,y),(640,y),thickness=.01,color='lightgray')
-    for x in range(0,640,10):
-        Line((x,0),(x,640),thickness=.01,color='lightgray')
+    move_to(player.shape, (10 * player.x + 5, 10 * player.y + 5))
 
-def start_screen():
-    key_text = Text("Welcome to Robots", (320, 270), color = 'blue', size=48)
-    key_text = Text("Press any key to start", (320, 100), color = 'blue', size=12)
-    update_when('key_pressed')
-    clear_screen()
+def move_robots():
+    global robots
 
-def lose():
-    time.sleep(1)
-    clear_screen()
-    Text("Game over",(320, 270), color = color.RED, size=40)
-    key_text = Text("Press any key to end the game", (320, 100), color = color.RED, size=12)
-    en = update_when('key_pressed')
-    time.sleep(1)
-    clear_screen()
-    en = end_graphics
-    if en == "Escape":
-        return True
-    
+    for robot in robots:
+        if not robot.junk:
+            if robot.x > player.x:
+                robot.x -= 1
+            elif robot.x < player.x:
+                robot.x += 1
 
-def play_game():
-    start_screen()
-    draw_grid()
-    global player_x
-    global player_y
-    global player 
-    global robot_x
-    global robot_y
-    global robot
-    player_x = randint(0,63)
-    player_y = randint(0,47)
-    robot_x = randint(0, 63)
-    robot_y = randint(0, 47)
-    player = Circle((10 * player_x + 5, 10 * player_y + 5), 5, filled=True)
-    robot = Circle((10 * robot_x + 5, 10 * robot_y + 5), 5, filled=True, color="Red")
+                if robot.y > player.y:
+                    robot.y -= 1
+                elif robot.y < player.y:
+                    robot.y += 1
 
-    while True:
-        place_player()
-        place_robot()
-        if player_x == robot_x and player_y == robot_y:
-            break
-        sleep(0.1)
-    lose()
+                move_to(robot.shape, (10 * robot.x, 10 * robot.y))
 
-begin_graphics(title = "Robots")
-play_game()
-end_graphics()
+def collided(thing1, list_of_things):
+    for thing2 in list_of_things:
+        if thing1.x == thing2.x and thing1.y == thing2.y:
+            return True
+    return False
+
+
+def robot_crashed(the_bot):
+  for a_bot in robots:
+      if a_bot == the_bot:
+          return False
+      if a_bot.x == the_bot.x and a_bot.y == the_bot.y:
+          return a_bot
+  return False
+      
+
+
+def check_collisions():
+  global finished, robots
+
+  if collided(player, robots):
+      finished = True
+      Text("You've been caught!", (320, 240), size=22)
+      sleep(3)
+      return
+  
+  surviving_robots = []
+
+  for robot in robots:
+      if collided(robot, junk):
+          continue
+      
+      zombie = robot_crashed(robot)
+
+      if not zombie:
+          surviving_robots.append(robot)
+      else:
+          remove_from_screen(zombie.shape)
+          zombie.junk = True
+          zombie.shape = Box((10 * zombie.x, 10 * zombie.y), 10, 10, filled=True)
+          junk.append(zombie)
+
+  robots = []
+  
+  for robot in surviving_robots:
+      if not collided(robot, junk):
+          robots.append(robot)
+
+  if not robots:
+      finished = True
+      Text("You win!", (160, 240), size=24)
+      sleep(3)
+      return
+  
+begin_graphics()
+
+finished = False
+numbots = 2
+junk = []
+
+place_robots()
+safely_place_player()
+
+while not finished:
+  move_player()
+  move_robots()
+  move_robots()
+
+end_graphics() 
+
+
+  
+
+
+
+
+ 
